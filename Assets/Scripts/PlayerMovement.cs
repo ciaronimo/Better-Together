@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] LayerMask groundLayer;
     [SerializeField] Transform groundCheck;
     [SerializeField] Vector2 groundBoxSize = new Vector2(0.2f, 0.5f);
+
     Rigidbody2D rb;
     bool hasHorizontalMovement = true;
     bool isJumping = false;
@@ -27,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
         isGrounded = Physics2D.OverlapBox(groundCheck.position, groundBoxSize, groundLayer);
         float hAxis = Input.GetAxisRaw("Horizontal");
         //if the player isn't moving, stop the player from moving in the x
+        //this is important because it stops the character from moving when the player stops x-axis input
         if (hAxis == 0)
         {
             hasHorizontalMovement = false;
@@ -41,6 +43,7 @@ public class PlayerMovement : MonoBehaviour
 
     void HorizontalMove(float hAxis)
     {
+        //check if player can move horizontally
         if (hasHorizontalMovement)
         {
             rb.velocity = new Vector2(moveSpeed * hAxis * Time.deltaTime, rb.velocity.y);
@@ -55,6 +58,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetButtonDown("Jump"))
         {
+
             isJumping = true;
         }
         else if (Input.GetButtonUp("Jump"))
