@@ -4,6 +4,22 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+
+    Rigidbody2D rb;
+    public Animator playerAnim;
+
+
+    bool hasHorizontalMovement = true;
+    public bool isJumping;
+    public bool isAttacking;
+    float jumpTimer = 0f;
+    public bool isGrounded;
+    private Vector3 initialScale;
+
+
+
+
+
     [SerializeField] float moveSpeed = 150f;
     [SerializeField] float jumpPeriod = .25f;
     [SerializeField] float jumpSpeed = 150f;
@@ -11,15 +27,16 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Transform groundCheck;
     [SerializeField] Vector2 groundBoxSize = new Vector2(0.2f, 0.5f);
 
-    Rigidbody2D rb;
-    bool hasHorizontalMovement = true;
-    bool isJumping = false;
-    float jumpTimer = 0f;
-    bool isGrounded = true;
+
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        playerAnim = GetComponent<Animator>();
+        initialScale = transform.localScale;
+
     }
 
     // Update is called once per frame
@@ -37,8 +54,33 @@ public class PlayerMovement : MonoBehaviour
         {
             hasHorizontalMovement = true;
         }
+
+
+
         HorizontalMove(hAxis);
         Jump();
+
+        if (Input.GetKey(KeyCode.RightArrow) || (Input.GetKey(KeyCode.D)))
+        {
+            transform.localScale = new Vector3(initialScale.x, initialScale.y, initialScale.z);
+        }
+
+        if (Input.GetKey(KeyCode.LeftArrow) || (Input.GetKey(KeyCode.A)))
+        {
+            transform.localScale = new Vector3(-initialScale.x, initialScale.y, initialScale.z);
+        }
+
+
+
+
+        playerAnim.SetFloat("speed", Mathf.Abs(hAxis));
+        playerAnim.SetBool("isGrounded", isGrounded);
+        playerAnim.SetBool("isJumping", isJumping);
+
+
+        HorizontalMove(hAxis);
+        Jump();
+
     }
 
     void HorizontalMove(float hAxis)
@@ -56,7 +98,11 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump()
     {
+
+        if (Input.GetButtonDown("Jump") && isGrounded)
+
         if (Input.GetButtonDown("Jump"))
+
         {
 
             isJumping = true;
@@ -69,13 +115,18 @@ public class PlayerMovement : MonoBehaviour
 
         if (isGrounded)
         {
-            if (Input.GetButton("Jump")) { 
+            if (Input.GetButton("Jump"))
+            {
             }
             Debug.Log("@");
             jumpTimer = 0f;
         }
 
+
+        if (Input.GetButton("Jump") && isGrounded)
+
         if (Input.GetButton("Jump"))
+
         {
             jumpTimer += Time.deltaTime;
             if (jumpTimer < jumpPeriod)
@@ -84,7 +135,14 @@ public class PlayerMovement : MonoBehaviour
 
             }
         }
+        playerAnim.SetBool("isJumping", isJumping);
+    }
+
+
+
     }
 
     //animator.SetBool("isJumping", isJumping);
-}
+
+
+
