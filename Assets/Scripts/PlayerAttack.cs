@@ -12,12 +12,12 @@ public class PlayerAttack : MonoBehaviour
     public LayerMask whatIsEnemies;
     public int damage;
     public Animator anim;
+    public int atkType = 0;
+    public float timerPeriod = .25f;
 
-    int atkType = 0;
     bool timerOn;
     bool isAttacking = false;
     float timer = 0f;
-    float timerPeriod = 1f;
     // Start is called before the first frame update
     void Start()
     {
@@ -36,13 +36,17 @@ public class PlayerAttack : MonoBehaviour
             atkType++;
             switch (atkType)
             {
-                case 0:
+                case 1:
                     anim.SetTrigger("attack1");
                     break;
-                case 1:
+                case 2:
+                    anim.SetTrigger("attack1");
                     anim.SetTrigger("attack2");
                     break;
-                case 2:
+                case 3:
+                    anim.SetTrigger("attack1");
+                    anim.SetTrigger("attack2");
+                    anim.SetTrigger("attack3"); 
                     Debug.Log("attack3");
                     break;
                 default:
@@ -50,7 +54,7 @@ public class PlayerAttack : MonoBehaviour
                     break;
 
             }
-
+            Debug.Log(atkType);
             //anim.SetTrigger("attack1");
             //camAnim.SetTrigger("Shake");
 
@@ -64,12 +68,11 @@ public class PlayerAttack : MonoBehaviour
 
         }
 
-        if(Input.GetKeyUp(KeyCode.RightControl) || Input.GetKeyUp(KeyCode.LeftControl))
-        {
-            isAttacking = false;
-        }
-
-        if (timer > timerPeriod)
+        //if (Input.GetKeyUp(KeyCode.RightControl) || Input.GetKeyUp(KeyCode.LeftControl))
+        //{
+        //    isAttacking = false;
+        //}
+            if (timer >= timerPeriod)
         {
             isAttacking = false;
             timerOn = false;
@@ -83,7 +86,6 @@ public class PlayerAttack : MonoBehaviour
         }
 
         //timeBtwAttack -= Time.deltaTime;
-        Debug.Log(timeBtwAttack);
         anim.SetBool("isAttacking", isAttacking);
     }
 
