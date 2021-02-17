@@ -25,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float jumpSpeed = 150f;
     [SerializeField] LayerMask groundLayer;
     [SerializeField] Transform groundCheck;
-    [SerializeField] Vector2 groundBoxSize = new Vector2(0.2f, 0.5f);
+    [SerializeField] float groundBoxRadius = 0.1f;
 
 
 
@@ -42,7 +42,8 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        isGrounded = Physics2D.OverlapBox(groundCheck.position, groundBoxSize, groundLayer);
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundBoxRadius, groundLayer);
+        Debug.Log(isGrounded);
         float hAxis = Input.GetAxisRaw("Horizontal");
         //if the player isn't moving, stop the player from moving in the x
         //this is important because it stops the character from moving when the player stops x-axis input
