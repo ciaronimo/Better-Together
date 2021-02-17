@@ -71345,4 +71345,5 @@ MonoBehaviour:
   damage: 0
   anim: {fileID: 0}
   atkType: 0
-  timerPeriod: 0.25
+  timerPeriod: 0.4
+  atkCdTimerPeriod: 0.25
