@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    private float timeBtwAttack = 0;
+    private float timeBtwAttack;
     public float startTimeBtwAttack;
-    //public Animator camAnim;
-    //public Transform attackPos;
+    public Animator camAnim;
+    public Transform attackPos;
     public float attackRange;
     public LayerMask whatIsEnemies;
     public int damage;
@@ -25,30 +25,32 @@ public class PlayerAttack : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.RightControl) || Input.GetKeyDown(KeyCode.LeftControl))
             {
+                timeBtwAttack = 3;
                 anim.SetTrigger("attack1");
-                //anim.SetTrigger("attack1");
+               
+               
                 //camAnim.SetTrigger("Shake");
-                timeBtwAttack += 1;
 
-                //Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(attackPos.position, attackRange, whatIsEnemies);
+                Debug.Log(timeBtwAttack);
+
+                Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(attackPos.position, attackRange, whatIsEnemies);
                 /*
                 for (int i = 0; i < enemiesToDamage; i++)
                 {
                     enemiesToDamage[i].GetComponent<Enemy>().health -= damage;      
                 */
-
             }
 
         }
-        else
+        else if(timeBtwAttack > 2)
         {
             if (Input.GetKeyDown(KeyCode.RightControl) || Input.GetKeyDown(KeyCode.LeftControl))
             {
                 anim.SetTrigger("attack2");
-                //anim.SetTrigger("attack1");
-                //camAnim.SetTrigger("Shake");
+                
+                camAnim.SetTrigger("Shake");
                 Debug.Log("second");
-                //Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(attackPos.position, attackRange, whatIsEnemies);
+                Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(attackPos.position, attackRange, whatIsEnemies);
                 /*
                 for (int i = 0; i < enemiesToDamage; i++)
                 {
@@ -57,8 +59,28 @@ public class PlayerAttack : MonoBehaviour
             }
 
         }
+        else if (timeBtwAttack > 0.5 && timeBtwAttack < 2)
+        {
+            if (Input.GetKeyDown(KeyCode.RightControl) || Input.GetKeyDown(KeyCode.LeftControl))
+            {
+                anim.SetTrigger("attack3");
+                //anim.SetTrigger("attack1");
+                camAnim.SetTrigger("Shake");
+                Debug.Log("second");
+                //timeBtwAttack += 10;
+                Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(attackPos.position, attackRange, whatIsEnemies);
+                /*
+                for (int i = 0; i < enemiesToDamage; i++)
+                {
+                    enemiesToDamage[i].GetComponent<Enemy>().health -= damage;      
+                */
+                //timeBtwAttack += 10;
+            }
 
-        //timeBtwAttack -= Time.deltaTime;
+        }
+
+        timeBtwAttack -= Time.deltaTime;
+
         Debug.Log(timeBtwAttack);
 
     }
@@ -66,6 +88,7 @@ public class PlayerAttack : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        //Gizmos.DrawWireSphere(attackPos.position, attackRange);
+        Gizmos.DrawWireSphere(attackPos.position, attackRange);
     }
+
 }
