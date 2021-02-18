@@ -5,16 +5,19 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
 
+    Rigidbody2D rb;
+    public Animator playerAnim;
 
 
     bool hasHorizontalMovement = true;
-    bool isJumping;
-    bool isAttacking;
+    public bool isJumping;
+    public bool isAttacking;
     float jumpTimer = 0f;
-    bool isGrounded = false;
-    Rigidbody2D rb;
+    public bool isGrounded;
     private Vector3 initialScale;
-    Animator playerAnim;
+
+
+
 
 
     [SerializeField] float moveSpeed = 150f;
@@ -22,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float jumpSpeed = 150f;
     [SerializeField] LayerMask groundLayer;
     [SerializeField] Transform groundCheck;
-    [SerializeField] float groundCheckRadius = 0.1f;
+    [SerializeField] Vector2 groundBoxSize = new Vector2(0.2f, 0.5f);
 
 
 
@@ -39,7 +42,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        isGrounded = Physics2D.OverlapBox(groundCheck.position, groundBoxSize, groundLayer);
         float hAxis = Input.GetAxisRaw("Horizontal");
         //if the player isn't moving, stop the player from moving in the x
         //this is important because it stops the character from moving when the player stops x-axis input
@@ -98,17 +101,17 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetButtonDown("Jump") && isGrounded)
 
-            if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump"))
 
-            {
+        {
 
-                isJumping = true;
-            }
-            else if (Input.GetButtonUp("Jump"))
-            {
-                jumpTimer = jumpPeriod;
-                isJumping = false;
-            }
+            isJumping = true;
+        }
+        else if (Input.GetButtonUp("Jump"))
+        {
+            jumpTimer = jumpPeriod;
+            isJumping = false;
+        }
 
         if (isGrounded)
         {
@@ -119,24 +122,27 @@ public class PlayerMovement : MonoBehaviour
             jumpTimer = 0f;
         }
 
-            if (Input.GetButton("Jump"))
 
+        if (Input.GetButton("Jump") && isGrounded)
+
+        if (Input.GetButton("Jump"))
+
+        {
+            jumpTimer += Time.deltaTime;
+            if (jumpTimer < jumpPeriod)
             {
-                jumpTimer += Time.deltaTime;
-                if (jumpTimer < jumpPeriod)
-                {
-                    rb.AddForce(new Vector2(0, jumpSpeed * Time.deltaTime), ForceMode2D.Impulse);
-                }
-                }
+                rb.AddForce(new Vector2(0, jumpSpeed * Time.deltaTime), ForceMode2D.Impulse);
+
             }
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+        }
+        playerAnim.SetBool("isJumping", isJumping);
     }
-}
 
 
-//animator.SetBool("isJumping", isJumping);
+
+    }
+
+    //animator.SetBool("isJumping", isJumping);
 
 
 

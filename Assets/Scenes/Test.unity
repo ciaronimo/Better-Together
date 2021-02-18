@@ -719,7 +719,6 @@ GameObject:
   - component: {fileID: 1960163249}
   - component: {fileID: 1960163248}
   - component: {fileID: 1960163247}
-  - component: {fileID: 1960163251}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -761,7 +760,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   groundCheck: {fileID: 265222368}
-  groundCheckRadius: 0.1
+  groundBoxSize: {x: 0.025, y: 0.01}
 --- !u!50 &1960163248
 Rigidbody2D:
   serializedVersion: 4
@@ -860,17 +859,3 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1960163251
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1960163245}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13ec4179ba1957141ac988c1dbcf6a85, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  atkType: 0
-  timerPeriod: 0.33
