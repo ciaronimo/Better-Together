@@ -72,18 +72,21 @@ public class PlayerAttack : MonoBehaviour
 
         if (timerOn) timer += Time.deltaTime;
 
-        if(atkCdTimer < atkCdTimerPeriod)
+        if (atkCdTimer < atkCdTimerPeriod)
         {
             atkCdTimer += Time.deltaTime;
         }
 
         if (atkType > 3 || timer >= anim.GetCurrentAnimatorStateInfo(0).length)
         {
-
-            atkType = 0;
-            attack1Active = false;
-            attack2Active = false;
-            attack3Active = false;
+            if (isAttacking)
+            {
+                atkType = 0;
+                atkCdTimer = 0;
+                attack1Active = false;
+                attack2Active = false;
+                attack3Active = false;
+            }
         }
 
         anim.SetBool("isAttacking", isAttacking);
@@ -96,5 +99,5 @@ public class PlayerAttack : MonoBehaviour
     {
         Gizmos.color = Color.red;
         //Gizmos.DrawWireSphere(attackPos.position, attackRange);
-    } 
+    }
 }
