@@ -129,8 +129,11 @@ public class PlayerMovement : MonoBehaviour
                 }
                 }
             }
-
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
     }
+}
 
 
 //animator.SetBool("isJumping", isJumping);
