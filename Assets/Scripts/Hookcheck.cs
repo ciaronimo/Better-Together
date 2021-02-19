@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Hookcheck : MonoBehaviour
 {
-    public GameObject player;
+    public GameObject Player;
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Hookable") 
         {
-            player.GetComponent<Grapple>().hooked = true;
-            player.GetComponent<Grapple>().hookedObj = other.gameObject;
+            Player.GetComponent<Grapple>().hooked = true;
+            Player.GetComponent<Grapple>().hookedObj = other.gameObject;
         }
     }
 }
