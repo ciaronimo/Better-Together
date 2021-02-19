@@ -10,7 +10,7 @@ public class Grapple : MonoBehaviour
     public float hookTravelSpeed;
     public float playerTravelSpeed;
 
-    public static bool fired;
+    public bool fired;
     public bool hooked;
     public GameObject hookedObj;
 
@@ -27,7 +27,7 @@ public class Grapple : MonoBehaviour
         if (fired)
         {
             LineRenderer rope = hook.GetComponent<LineRenderer>();
-            rope.SetVertexCount(2);
+            rope.positionCount = 2;
             rope.SetPosition(0, hookHolder.transform.position);
             rope.SetPosition(1, hook.transform.position);
         }
@@ -47,28 +47,28 @@ public class Grapple : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, hook.transform.position, Time.deltaTime * playerTravelSpeed);
             float distanceToHook = Vector3.Distance(transform.position, hook.transform.position);
 
-            this.GetComponent<Rigidbody>().useGravity = true;
+            //this.GetComponent<Rigidbody>().useGravity = true;
 
             if (distanceToHook < 1) 
             {
 
                 if(grounded == false) 
                 {
-                    this.transform.Translate(Vector3.forward * Time.deltaTime * 17f);
-                    this.transform.Translate(Vector3.up * Time.deltaTime * 18f);
+                    this.transform.Translate(Vector3.right * Time.deltaTime * 17f);
+                    //this.transform.Translate(Vector3.up * Time.deltaTime * 18f);
                 }
-                StartCoroutine("climb");
+                StartCoroutine(Climb());
                 
             }
             else 
             {
                 hook.transform.parent = hookHolder.transform;
-                this.GetComponent<Rigidbody>().useGravity = false;
+                //this.GetComponent<Rigidbody>().useGravity = false;
             };
         }
     }
 
-    IEnumerator climb() 
+    IEnumerator Climb() 
     
     {
         yield return new WaitForSeconds(0.1f);
@@ -82,18 +82,18 @@ public class Grapple : MonoBehaviour
         hooked = false;
 
         LineRenderer rope = hook.GetComponent<LineRenderer>();
-        rope.SetVertexCount(0);
+        rope.positionCount = 0;
 
     }
 
     void CheckIfGrounded()
     {
         RaycastHit hit;
-        float distanance = 1f;
+        float distance = 1f;
 
         Vector3 dir = new Vector3(0, -1);
 
-        if(Physics.Raycast(transform.position , dir, out hit, distanance)) 
+        if(Physics.Raycast(transform.position , dir, out hit, distance)) 
         {
             grounded = true;
         }

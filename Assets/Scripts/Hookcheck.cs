@@ -5,9 +5,9 @@ using UnityEngine;
 public class Hookcheck : MonoBehaviour
 {
     public GameObject Player;
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Hookable") 
+        if ( other.CompareTag("Hookable")) 
         {
             Player.GetComponent<Grapple>().hooked = true;
             Player.GetComponent<Grapple>().hookedObj = other.gameObject;
