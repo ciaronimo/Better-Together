@@ -53,7 +53,7 @@ public class Grapple : MonoBehaviour
             float distanceToHook = Vector3.Distance(transform.position, hook.transform.position);
 
             // this is the issue that i think isnt letting the player go towards the object as its a rigidbody and the player has a rigidbody2d
-            this.GetComponent<Rigidbody>().useGravity = false;
+            this.GetComponent<Rigidbody2D>().mass = 0;
 
             if (distanceToHook < 1) 
             {
@@ -72,7 +72,7 @@ public class Grapple : MonoBehaviour
             {
                 // checks to make sure that gravity is set when not hooked to obj and resetting hook to hookholder
                 hook.transform.parent = hookHolder.transform;
-                this.GetComponent<Rigidbody>().useGravity = true;
+                this.GetComponent<Rigidbody>().mass = 1;
             };
         }
     }
